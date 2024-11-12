@@ -1,90 +1,66 @@
-#
-# A couple of useful guides & docs:
-#
-# - Main Bitrise CLI docs: https://github.com/bitrise-io/bitrise/tree/master/_docs
-# - Step Development Guideline: https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
-# - Bitrise.yml format spec: https://github.com/bitrise-io/bitrise/blob/master/_docs/bitrise-yml-format-spec.md
-# - Bitrise docs: http://devcenter.bitrise.io/
-# - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
-
 title: |-
   iXGuard Protect
 summary: |
-  Protect your iOS archive using iXGuard.
+  Protect your iOS archive with iXGuard.
 description: |
   The Step processes an unprotected xcarchive using iXGuard based on the ixguard.yml configuration file.
 website: https://github.com/npinney/bitrise-step-ixguard-protect
 source_code_url: https://github.com/npinney/bitrise-step-ixguard-protect
 support_url: https://github.com/npinney/bitrise-step-ixguard-protect/issues
-
-# If this step should be available only for certain project types
-# just uncomment this `project_type_tags` section and include all the
-# project types supported by the step. If the step can be used for all
-# project types then you can just remove this section.
-# If no `project_type_tags` specified (or specified as an empty array)
-# that means the step can be used for any project type.
-# You can find more information about project type tags in the Step Development Guideline:
-# https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
-#
-# project_type_tags:
-#   - ios
-#   - macos
-#   - android
-#   - xamarin
-#   - react-native
-#   - cordova
-#   - ionic
-#   - flutter
-
-# Type tags are used for categorizing steps, for easier step discovery in Step Libraries.
-# You can find more information about type tags in the Step Development Guideline:
-# https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
+project_type_tags:
+  - ios
+  - react-native
 type_tags:
   - utility
-
-# These properties define whether a Step is run in a given Workflow or not.
-# You can find more information about this in the documentation here:
-# https://devcenter.bitrise.io/en/steps-and-workflows/developing-your-own-bitrise-step/developing-a-new-step.html#setting-conditions-for-running-the-step
-#
-# is_always_run: false
-# is_skippable: false
-# run_if: ""
-
-# Use the `deps` property to declare dependencies that you can fetch from an OS dependency manager.
-# You can find more information about this in the documentation here:
-# https://devcenter.bitrise.io/en/steps-and-workflows/developing-your-own-bitrise-step/developing-a-new-step.html#submodules-and-step-dependencies
-#
-# deps:
-#   brew:
-#   - name: cmake
-#   apt_get:
-#   - name: cmake
-
-
+  - build
+  - code-sign
+is_always_run: false
+is_skippable: false
 toolkit:
   bash:
     entry_file: step.sh
-
-
 inputs:
-  - example_step_input: Default Value - you can leave this empty if you want to
+  - license_url: $BITRISEIO_IXGUARD_LICENSE_URL
     opts:
-      title: "Example Step Input"
-      summary: Summary. No more than 2-3 sentences.
+      title: "iXGuard license file url"
+      summary: Text file containing your licenses.
       description: |
-        Description of this input.
-
-        Can be Markdown formatted text.
+        Can be downloaded from your Guardsquare platform and uploaded to Bitrise.
+        If not specified or valid, the Step will not be able to run ixguard.
+      is_expand: true
+      is_required: true
+      value_options: []
+  - archive_path: $BITRISE_XCARCHIVE_PATH
+    opts:
+      title: "iXGuard license file url"
+      summary: Text file containing your licenses.
+      description: |
+        Can be downloaded from your Guardsquare platform and uploaded to Bitrise.
+        If not specified or valid, the Step will not be able to run ixguard.
+      is_expand: true
+      is_required: true
+      value_options: []
+  - export_options: $BITRISEIO_EXPORT_OPTIONS_URL
+    opts:
+      title: "Export options plist"
+      summary: Specifies a plist file content that configures archive exporting.
+      description: |
+        If not specified, the Step will auto-generate it.
       is_expand: true
       is_required: true
       value_options: []
 
 outputs:
-  - EXAMPLE_STEP_OUTPUT:
+  - PROTECTED_ARCHIVE:
     opts:
-      title: "Example Step Output"
-      summary: Summary. No more than 2-3 sentences.
+      title: "Protected app archive"
+      summary: Output of iXGuard - An obfuscated and encrypted xcarchive ready for export.
       description: |
-        Description of this output.
-
-        Can be Markdown formatted text.
+        Replaces the unprotected xcarchive in the artifacts section after successfull processing.
+        Contains dSYMs.
+  - IXGUARD_GENERATED_FILES:
+    opts:
+      title: "iXGuard generated files"
+      summary: During iXGuard processing, the mapping and log files among others are grouped and compressed.
+      description: |
+        They are made available in the artifacts section.
