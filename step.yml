@@ -23,20 +23,16 @@ inputs:
   - license_url: $BITRISEIO_IXGUARD_LICENSE_URL
     opts:
       title: "iXGuard license file url"
-      summary: Text file containing your licenses.
+      summary: Text file containing licenses.
       description: |
-        Can be downloaded from your Guardsquare platform and uploaded to Bitrise.
-        If not specified or valid, the Step will not be able to run ixguard.
+        Can be downloaded from your Guardsquare account and uploaded to Bitrise.
       is_expand: true
       is_required: true
       value_options: []
   - archive_path: $BITRISE_XCARCHIVE_PATH
     opts:
-      title: "iXGuard license file url"
-      summary: Text file containing your licenses.
-      description: |
-        Can be downloaded from your Guardsquare platform and uploaded to Bitrise.
-        If not specified or valid, the Step will not be able to run ixguard.
+      title: "Unprotected archive"
+      summary: Path to the xcarchive file that ixguard will process.
       is_expand: true
       is_required: true
       value_options: []
@@ -44,7 +40,7 @@ outputs:
   - PROTECTED_ARCHIVE:
     opts:
       title: "Protected app archive"
-      summary: Output of iXGuard - An obfuscated and encrypted xcarchive ready for export.
+      summary: An obfuscated and encrypted xcarchive ready for export.
       description: |
         Replaces the unprotected xcarchive in the artifacts section after successfull processing.
         Contains dSYMs.
