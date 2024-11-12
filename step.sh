@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 LICENSE_FILE="ixguard-license.txt"
 EXPORT_OPTIONS_PLIST="export_options.plist"
@@ -31,6 +31,7 @@ fi
 # Process the existing xcarchive
 ixguard -config "ixguard.yml" -o="$PROTECTED_ARCHIVE" "$BITRISE_XCARCHIVE_PATH"
 
+# Make the protected archive available from outside this Step
 envman add --key PROTECTED_ARCHIVE --value "$(realpath $PROTECTED_ARCHIVE)"
 
 # Create the output directory
