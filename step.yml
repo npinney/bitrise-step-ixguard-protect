@@ -40,15 +40,6 @@ inputs:
       is_expand: true
       is_required: true
       value_options: []
-  - export_options: $BITRISEIO_EXPORT_OPTIONS_URL
-    opts:
-      title: "Export options plist"
-      summary: Specifies a plist file content that configures archive exporting.
-      description: |
-        If not specified, the Step will auto-generate it.
-      is_expand: true
-      is_required: true
-      value_options: []
 outputs:
   - PROTECTED_ARCHIVE:
     opts:
