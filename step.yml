@@ -1,9 +1,18 @@
-title: |-
-  iXGuard Protect
-summary: |
-  Protect your iOS archive with iXGuard.
-description: |
-  The Step processes an unprotected xcarchive using iXGuard based on the ixguard.yml configuration file.
+title: iXGuard Protect
+summary: Protect your iOS archive with iXGuard.
+description: |-
+  Protect your app archive before export to take advantage of the advanced security features offered by iXGuard.
+
+  ### Configuring the Step
+
+  Before you start:
+    - You will need to have installed iXGuard to the workspace. This can be done using the Step [Install iXGuard](https://github.com/npinney/bitrise-step-install-ixguard)
+    - Make sure at the root of your project there can be found a valid `ixguard.yml` configuration file.
+
+  To configure the Step:
+
+  1. *License Url*: Specifies a url for where the iXGuard license file can be downloaded.
+  2. *Archive Path*: Specifies the xcarchive that should be protected with iXGuard.
 website: https://github.com/npinney/bitrise-step-ixguard-protect
 source_code_url: https://github.com/npinney/bitrise-step-ixguard-protect
 support_url: https://github.com/npinney/bitrise-step-ixguard-protect/issues
@@ -22,31 +31,27 @@ toolkit:
 inputs:
   - license_url: $BITRISEIO_IXGUARD_LICENSE_URL
     opts:
-      title: "iXGuard license file url"
+      title: iXGuard license file url
       summary: Text file containing licenses.
-      description: |
-        Can be downloaded from your Guardsquare account and uploaded to Bitrise.
+      description: Can be downloaded from your Guardsquare account and uploaded to Bitrise.
       is_expand: true
       is_required: true
       value_options: []
   - archive_path: $BITRISE_XCARCHIVE_PATH
     opts:
-      title: "Unprotected archive"
-      summary: Path to the xcarchive file that ixguard will process.
+      title: Unprotected xcarchive
+      summary: Path to the unportected and built-with-ixgaurd-toolchain xcarchive file that iXGuard will process.
       is_expand: true
       is_required: true
       value_options: []
 outputs:
   - PROTECTED_ARCHIVE:
     opts:
-      title: "Protected app archive"
-      summary: An obfuscated and encrypted xcarchive ready for export.
-      description: |
-        Replaces the unprotected xcarchive in the artifacts section after successfull processing.
-        Contains dSYMs.
+      title: Protected app archive
+      summary: Path to the obfuscated and encrypted xcarchive.
+      description: Replaces the unprotected xcarchive in the artifacts section after successfull processing. Contains dSYMs.
   - IXGUARD_GENERATED_FILES:
     opts:
-      title: "iXGuard generated files"
+      title: iXGuard generated files
       summary: During iXGuard processing, the mapping and log files among others are grouped and compressed.
-      description: |
-        They are made available in the artifacts section.
+      description: When paired with the Deploy to Bitrise.ios Step they are made available in the artifacts section of the build.
